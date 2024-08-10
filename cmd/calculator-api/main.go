@@ -7,6 +7,7 @@ import (
 	"github.com/subhamBharadwaz/go-calculator-api/internal/logger"
 	"github.com/subhamBharadwaz/go-calculator-api/internal/middleware"
 	"github.com/subhamBharadwaz/go-calculator-api/internal/routes"
+	"golang.org/x/time/rate"
 )
 
 func main() {
@@ -14,12 +15,16 @@ func main() {
 	router := routes.NewRouter(logger)
 
 	corsHandler := cors.Default().Handler(router)
+	limiter := rate.NewLimiter(5, 10)
 
-	handler := middleware.Logging(logger, corsHandler)
+	stack := middleware.CreateStack(
+		middleware.Logging(logger),
+		middleware.RateLimiter(limiter),
+	)
 
 	server := http.Server{
 		Addr:    ":8080",
-		Handler: handler,
+		Handler: stack(corsHandler),
 	}
 
 	logger.Info("Server listening on port :8080")
