@@ -3,9 +3,9 @@ package main
 import (
 	"net/http"
 
-	"github.com/subhamBharadwaz/go-calculator-api/logger"
-	"github.com/subhamBharadwaz/go-calculator-api/middleware"
-	"github.com/subhamBharadwaz/go-calculator-api/routes"
+	"github.com/subhamBharadwaz/go-calculator-api/internal/logger"
+	"github.com/subhamBharadwaz/go-calculator-api/internal/middleware"
+	"github.com/subhamBharadwaz/go-calculator-api/internal/routes"
 )
 
 func main() {
